@@ -1,47 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<groupId>com.jcrafters.stockmarket</groupId>
-	<artifactId>jc-stock-market-parent</artifactId>
-	<version>${application.version}</version>
-	<packaging>pom</packaging>
-	<name>jc-stock-market-parent</name>
-	<description>Aplikacja do monitorowania indeksów giełdowych</description>
-	
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.6.RELEASE</version>
-	</parent>
-	
-	<properties>
-		<application.version>0.0.1-SNAPSHOT</application.version>
-		<java.version>1.8</java.version>
-		<java.version>1.8</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-	</properties>
-	
-	<modules>
-      <module>jc-stock-market-repo</module>
-	  <module>jc-stock-market-service</module>
-	  <module>jc-stock-market-app</module>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-      <module>jc-stock-market-crawler-repo</module>
-	  <module>jc-stock-market-crawler-service</module>
-	  <module>jc-stock-market-crawler-app</module>
-	</modules>	
-		
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <groupId>com.jcrafters.stockmarket</groupId>
+    <artifactId>jc-stock-market-parent</artifactId>
+    <version>${application.version}</version>
+    <packaging>pom</packaging>
+    <name>jc-stock-market-parent</name>
+    <description>Aplikacja do monitorowania indeksów giełdowych</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.1.RELEASE</version>
+    </parent>
+
+    <properties>
+        <application.version>0.0.1-SNAPSHOT</application.version>
+        <java.version>1.8</java.version>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+    </properties>
+
+    <modules>
+        <module>jc-stock-market-repo</module>
+        <module>jc-stock-market-service</module>
+        <module>jc-stock-market-app</module>
+
+        <module>jc-stock-market-crawler-repo</module>
+        <module>jc-stock-market-crawler-service</module>
+        <module>jc-stock-market-crawler-app</module>
+
+        <module>jc-stock-market-eureka-app</module>
+
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>
