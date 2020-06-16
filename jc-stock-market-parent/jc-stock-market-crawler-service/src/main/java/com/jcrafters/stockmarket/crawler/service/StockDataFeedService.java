@@ -6,6 +6,7 @@ import com.jcrafters.stockmarket.crawler.mapper.StockDataFeedMapper;
 import com.jcrafters.stockmarket.crawler.repository.StockDataFeedRepository;
 import com.jcrafters.stockmarket.crawler.service.model.CrawlerData;
 import com.jcrafters.stockmarket.crawler.service.model.GetCrawlerListResponse;
+import com.jcrafters.stockmarket.external.stock.api.StockService;
 import com.jcrafters.stockmarket.external.stock.api.model.AddStockPriceRequest;
 import com.jcrafters.stockmarket.external.stock.api.model.AddStockPriceResponse;
 import com.jcrafters.stockmarket.external.stock.api.model.StockPriceDto;
@@ -95,6 +96,20 @@ public class StockDataFeedService {
         ResponseEntity<AddStockPriceResponse> addStockPriceResponseResponseEntity = restTemplate.postForEntity(serviceUrl, request, AddStockPriceResponse.class);
         AddStockPriceResponse body = addStockPriceResponseResponseEntity.getBody();
         LOGGER.info(body.toString());
+    }
+
+    @Autowired
+    private StockService stockService;
+
+    @PostMapping("{stockDataFeedId}/ribbon/service/data")
+    public void testAddStockPriceIntegration4(@RequestBody CrawlerData crawlerData, @PathVariable("stockDataFeedId") Long stockDataFeedId) {
+        LOGGER.info("ribbon/resttemplate/data");
+        StockDataFeed stockDataFeed = stockDataFeedRepository.findById(stockDataFeedId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found StockDataFeed, id: " + stockDataFeedId));
+        String stockName = stockDataFeed.getStockName();
+        AddStockPriceRequest request = new AddStockPriceRequest();
+        request.setStockPrice(new StockPriceDto.Builder().amount(crawlerData.getAmount()).amountDatetime(crawlerData.getAmountDate() + "T" + crawlerData.getAmountTime() + "Z").build());
+        AddStockPriceResponse addStockPriceResponse = stockService.addStockPrice(request, stockName);
+        LOGGER.info(addStockPriceResponse.toString());
     }
 
     @PostMapping("{crawlerId}/data/test")
