@@ -5,7 +5,7 @@
 	
 	<groupId>com.jcrafters.stockmarket</groupId>
 	<artifactId>jc-stock-market-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${application.version}</version>
 	<packaging>pom</packaging>
 	<name>jc-stock-market-parent</name>
 	<description>Aplikacja do monitorowania indeksów giełdowych</description>
