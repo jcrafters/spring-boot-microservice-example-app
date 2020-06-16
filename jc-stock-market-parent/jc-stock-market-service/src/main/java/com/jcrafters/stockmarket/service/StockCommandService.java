@@ -12,10 +12,7 @@ import com.jcrafters.stockmarket.service.model.AddStockPriceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -31,7 +28,7 @@ public class StockCommandService {
     private StockPriceRepository stockPriceRepository;
 
     @PostMapping("{stockName}/price")
-    public AddStockPriceResponse addStockPrice(AddStockPriceRequest request, @PathVariable("stockName") String stockName) {
+    public AddStockPriceResponse addStockPrice(@RequestBody AddStockPriceRequest request, @PathVariable("stockName") String stockName) {
         Optional<Stock> stockOpt = stockRepository.findByName(stockName);
         if (stockOpt.isPresent() == false) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found stock, name: " + stockName);

@@ -29,6 +29,10 @@
       <module>jc-stock-market-repo</module>
 	  <module>jc-stock-market-service</module>
 	  <module>jc-stock-market-app</module>
+
+      <module>jc-stock-market-crawler-repo</module>
+	  <module>jc-stock-market-crawler-service</module>
+	  <module>jc-stock-market-crawler-app</module>
 	</modules>	
 		
 	<dependencies>
