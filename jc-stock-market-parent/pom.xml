@@ -37,6 +37,8 @@
 
         <module>jc-stock-market-eureka-app</module>
 
+        <module>jc-stock-market-gateway-app</module>
+
     </modules>
 
     <dependencies>
