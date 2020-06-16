@@ -41,14 +41,19 @@ Wykorzystanie LoadBalancingu i odpytanie przez Proxy interfejs
 v0.7.0
 Podstawienie proxy Gateway API
 
+8. Actuator
+v0.8.0
+Dodanie metryk
+
 ---------
 ToDo - środa:
-8. Dokeryzacja aplikacji
-9. Config Server
-10. Resilience4j-spring-boot2
-11. Prezentacja
+
+9. Dokeryzacja aplikacji
+10. Config Server
+11. Resilience4j-spring-boot2
+12. Prezentacja
 
 ---------
 ToDo - czwartek (?!):
-11. OpenShift 
-12. Tracing
+13. OpenShift 
+14. Tracing
