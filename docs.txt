@@ -1,0 +1,54 @@
+Dziedzina problemu:
+a) monitoring wartości akcji na giełdzie
+b) 2 moduły:
+	i) moduł giełdy (Stock Market): akcje -> wartość akcji z danej chwili
+	ii) moduł crawlera (Stock Market Crawler): pobieranie danych na temat indeksu giełdowego z wybranego źródła (na start: strona internetowa i wskazanie odpowiednich miejsc)
+c) moduł crawlera po pobraniu danych i odpowiednim przetworzeniu przesyła do modułu giełdy informacje
+
+
+1. Zwykła aplikacja spring boot
+v0.1.0
+Aplikacja z bazą H2 oraz testową usługą REST.
+Sprawdzenie czy działa.
+
+2. App1: Repo + Service
+v0.2.0
+Aplikacja StockMarket z bazą Postgresql.
+JPA
+Liquibase - wersjonowanie bazy danych
+Uzupełnienie usług REST
+Mapper DTO<->JPA (mapstruct)
+
+3. App2: Repo + Service, Integracja App2 -> App1
+v0.3.0
+Utworzenia aplikacji Stock Market Crawler, która komunikuje się z aplikacją Stock Market
+Użycie RestTemplate znając bezpośredni adres usługi Stock Market
+
+4. Przejście na cloud + Usługa Eureka
+v0.4.0
+Dodanie serwera Eureka (Service register and discovery)
+
+5. Eureka + Ribbon
+v0.5.0
+Rejestracja usług na serwerze Eureka
+Wykorzystanie mechnizmów do LoadBalancingu i odpytanie usług
+
+6. Feign + Ribbon
+v0.6.0
+Wykorzystanie LoadBalancingu i odpytanie przez Proxy interfejs
+
+7. Gateway API
+v0.7.0
+Podstawienie proxy Gateway API
+
+---------
+ToDo - środa:
+8. Dokeryzacja aplikacji
+9. Config Server
+10. Resilience4j-spring-boot2
+11. Prezentacja
+
+---------
+ToDo - czwartek (?!):
+11. OpenShift 
+12. Tracing
