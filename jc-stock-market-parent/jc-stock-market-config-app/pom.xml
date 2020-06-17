@@ -8,9 +8,9 @@
         <version>${application.version}</version>
     </parent>
     <groupId>com.jcrafters.stockmarket</groupId>
-    <artifactId>jc-stock-market-eureka-app</artifactId>
+    <artifactId>jc-stock-market-config-app</artifactId>
     <version>${application.version}</version>
-    <name>jc-stock-market-eureka-app</name>
+    <name>jc-stock-market-config-app</name>
     <description>Stock Market Eureka App</description>
 
 
@@ -23,7 +23,17 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+            <version>1.4.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+<!--            <version>2.2.3.RELEASE</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

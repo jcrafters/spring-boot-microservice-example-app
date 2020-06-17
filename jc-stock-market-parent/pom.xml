@@ -39,6 +39,8 @@
 
         <module>jc-stock-market-gateway-app</module>
 
+        <module>jc-stock-market-config-app</module>
+
     </modules>
 
     <dependencies>
