@@ -6,10 +6,13 @@ import com.jcrafters.stockmarket.crawler.mapper.StockDataFeedMapper;
 import com.jcrafters.stockmarket.crawler.repository.StockDataFeedRepository;
 import com.jcrafters.stockmarket.crawler.service.model.CrawlerData;
 import com.jcrafters.stockmarket.crawler.service.model.GetCrawlerListResponse;
+import com.jcrafters.stockmarket.external.Resilience4JConfig;
 import com.jcrafters.stockmarket.external.stock.api.StockService;
 import com.jcrafters.stockmarket.external.stock.api.model.AddStockPriceRequest;
 import com.jcrafters.stockmarket.external.stock.api.model.AddStockPriceResponse;
 import com.jcrafters.stockmarket.external.stock.api.model.StockPriceDto;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +105,9 @@ public class StockDataFeedService {
     private StockService stockService;
 
     @PostMapping("{stockDataFeedId}/ribbon/service/data")
-    public void testAddStockPriceIntegration4(@RequestBody CrawlerData crawlerData, @PathVariable("stockDataFeedId") Long stockDataFeedId) {
+    @CircuitBreaker(name = Resilience4JConfig.STOCK_DATA_FEED_SERVICE, fallbackMethod = "testAddStockPriceIntegration4CircuitBreaker")
+//    @RateLimiter(name = Resilience4JConfig.STOCK_DATA_FEED_SERVICE, fallbackMethod = "testAddStockPriceIntegration4RateLimiter")
+    public String testAddStockPriceIntegration4(@RequestBody CrawlerData crawlerData, @PathVariable("stockDataFeedId") Long stockDataFeedId) {
         LOGGER.info("ribbon/resttemplate/data");
         StockDataFeed stockDataFeed = stockDataFeedRepository.findById(stockDataFeedId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found StockDataFeed, id: " + stockDataFeedId));
         String stockName = stockDataFeed.getStockName();
@@ -110,7 +115,23 @@ public class StockDataFeedService {
         request.setStockPrice(new StockPriceDto.Builder().amount(crawlerData.getAmount()).amountDatetime(crawlerData.getAmountDate() + "T" + crawlerData.getAmountTime() + "Z").build());
         AddStockPriceResponse addStockPriceResponse = stockService.addStockPrice(request, stockName);
         LOGGER.info(addStockPriceResponse.toString());
+        return "priceIntegration4";
     }
+
+//    The Resilience4j Aspects order is following:
+//Retry ( CircuitBreaker ( RateLimiter ( TimeLimiter ( Bulkhead ( Function ) ) ) ) )
+
+    public String testAddStockPriceIntegration4CircuitBreaker(CrawlerData crawlerData, Long stockDataFeedId, Throwable e) {
+        LOGGER.error("testAddStockPriceIntegration4CircuitBreaker",e);
+        return "testAddStockPriceIntegration4CircuitBreaker";
+    }
+
+    public String testAddStockPriceIntegration4RateLimiter(CrawlerData crawlerData, Long stockDataFeedId, Throwable e) {
+        LOGGER.error("testAddStockPriceIntegration4RateLimiter",e);
+        return "testAddStockPriceIntegration4RateLimiter";
+    }
+
+
 
     @PostMapping("{crawlerId}/data/test")
     public void testGetCrawlerData() {
