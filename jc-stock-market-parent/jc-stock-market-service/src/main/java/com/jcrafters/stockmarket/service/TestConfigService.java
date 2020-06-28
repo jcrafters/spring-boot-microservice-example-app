@@ -17,10 +17,21 @@ public class TestConfigService {
     @Value("${additional.property.test}")
     private String testValue;
 
+
+    @Value("${additional.property.test2}")
+    private String testValue2;
+
     @GetMapping("test/config")
     public String testConfigValue() {
         return testValue;
     }
+
+    @GetMapping("test/config2")
+    public String testConfigValue2() {
+        return testValue2;
+    }
+
+
 
 
 }
