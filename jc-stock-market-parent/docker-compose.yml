@@ -1,0 +1,92 @@
+version: '3'
+services:
+  docker-jc-stock-market-eureka-app:
+    image: jc-stock-market-eureka-app:latest
+    expose:
+      - 38080
+    ports:
+      - 38080:38080
+    networks:
+      vpcbr:
+        ipv4_address: 172.18.0.2
+
+  docker-jc-stock-market-config-app:
+    image: jc-stock-market-config-app:latest
+    depends_on:
+      - docker-jc-stock-market-eureka-app
+    expose:
+      - 48080
+    ports:
+      - 48080:48080
+    networks:
+      vpcbr:
+        ipv4_address: 172.18.0.4
+  db:
+    build:
+      context: ./Docker
+      dockerfile: db.Dockerfile
+    environment:
+      POSTGRES_PASSWORD: Pass2020!
+    volumes:
+      - /Users/michal/Documents/Work/Projects/jc-stock-market/spring-boot-microservice-db/postgres-data/
+    ports:
+      - "15432:5432"
+    networks:
+      vpcbr:
+        ipv4_address: 172.18.0.3
+
+  docker-jc-stock-market-crawler-app:
+    image: jc-stock-market-crawler-app:latest
+    depends_on:
+      - docker-jc-stock-market-eureka-app
+      - docker-jc-stock-market-config-app
+      - db
+    links:
+      - db
+    expose:
+      - 28080
+    ports:
+      - 28080:28080
+    networks:
+      vpcbr:
+        ipv4_address: 172.18.0.8
+
+  docker-jc-stock-market-app:
+    image: jc-stock-market-app:latest
+    restart: on-failure
+    depends_on:
+      - docker-jc-stock-market-eureka-app
+      - docker-jc-stock-market-config-app
+      - db
+    links:
+      - db
+      - docker-jc-stock-market-eureka-app
+      - docker-jc-stock-market-config-app
+    expose:
+      - 18080
+    ports:
+      - 18080:18080
+    networks:
+      vpcbr:
+        ipv4_address: 172.18.0.9
+
+  docker-jc-stock-market-gateway-app:
+    image: jc-stock-market-gateway-app:latest
+    depends_on:
+      - docker-jc-stock-market-eureka-app
+      - docker-jc-stock-market-config-app
+      - docker-jc-stock-market-crawler-app
+      - docker-jc-stock-market-app
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    networks:
+      vpcbr:
+        ipv4_address: 172.18.0.10
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
