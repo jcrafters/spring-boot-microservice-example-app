@@ -21,6 +21,7 @@ services:
     networks:
       vpcbr:
         ipv4_address: 172.18.0.4
+
   db:
     build:
       context: ./Docker
@@ -72,7 +73,6 @@ services:
     environment:
       - TEST_ENV=TestEnv
 
-
   docker-jc-stock-market-gateway-app:
     image: jc-stock-market-gateway-app:latest
     depends_on:
@@ -87,6 +87,7 @@ services:
     networks:
       vpcbr:
         ipv4_address: 172.18.0.10
+
 networks:
   vpcbr:
     driver: bridge
